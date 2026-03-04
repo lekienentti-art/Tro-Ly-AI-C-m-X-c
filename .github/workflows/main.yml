@@ -31,7 +31,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: ÉP KHUÔN APK (Flet Build)
-        run: flet build apk --product "Ai Cảm xúc"
+        run: yes | flet build apk --product "Ai Cảm xúc"
 
       - name: Trả Hàng (Lưu file APK)
         uses: actions/upload-artifact@v4
