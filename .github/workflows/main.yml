@@ -7,18 +7,18 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04 # Hạ xuống bản hệ điều hành siêu ổn định
 
     steps:
       - name: Lấy Code về Lò
         uses: actions/checkout@v4
 
-      - name: Cài đặt Python
+      - name: Cài đặt Python 3.10
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.10' # Hạ Python xuống cho chuẩn bài
 
-      - name: Cài đặt Java (Búa máy Android)
+      - name: Cài đặt Java (Búa máy)
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
@@ -29,24 +29,18 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev
 
-      - name: Nạp ĐÚNG CHUẨN bản Flutter 3.41.2 & Ký giấy phép
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: '3.41.2'
-          channel: 'stable'
-      - run: yes | flutter doctor --android-licenses
-
-      - name: Nạp nhiên liệu (Thư viện)
+      - name: Nạp FLET BẢN VÀNG (0.23.2)
         run: |
           python -m pip install --upgrade pip
-          pip install flet
+          pip install flet==0.23.2
           pip install -r requirements.txt
 
-      - name: ÉP KHUÔN APK (Bọc thép 100%)
-        env:
-          FLET_CLI_NO_RICH_OUTPUT: "true"
-          PYTHONIOENCODING: "utf-8"
-        run: flet build apk
+      - name: ÉP KHUÔN APK (Tuyệt kỹ luồn lách)
+        run: |
+          set +e
+          yes | flet build apk
+          FLET_EXIT=${PIPESTATUS[1]}
+          exit $FLET_EXIT
 
       - name: Trả Hàng (Lưu file APK)
         uses: actions/upload-artifact@v4
