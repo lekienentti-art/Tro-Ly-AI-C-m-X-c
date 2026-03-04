@@ -18,10 +18,23 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Cài đặt Java (Búa máy Android)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
       - name: Chữa bệnh thiếu linh kiện Linux
         run: |
           sudo apt-get update
           sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev
+
+      - name: Nạp ĐÚNG CHUẨN bản Flutter 3.41.2 & Ký giấy phép
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.2'
+          channel: 'stable'
+      - run: yes | flutter doctor --android-licenses
 
       - name: Nạp nhiên liệu (Thư viện)
         run: |
@@ -29,8 +42,8 @@ jobs:
           pip install flet
           pip install -r requirements.txt
 
-      - name: ÉP KHUÔN APK (Lột mặt nạ Flet)
-        run: bash -c "yes | flet build apk --verbose"
+      - name: ÉP KHUÔN APK (Hoàn hảo 100%)
+        run: flet build apk
 
       - name: Trả Hàng (Lưu file APK)
         uses: actions/upload-artifact@v4
