@@ -24,6 +24,11 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
+      - name: Chữa bệnh thiếu linh kiện Linux (Bắt buộc phải có)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev
+
       - name: Cài đặt Flutter & Ký Giấy Phép
         uses: subosito/flutter-action@v2
         with:
@@ -33,14 +38,12 @@ jobs:
       - name: LẬT NGƯỢC THẾ CỜ (Cài thư viện chuẩn)
         run: |
           python -m pip install --upgrade pip
-          # Cài đồ của sếp trước
           pip install -r requirements.txt
-          # Cài Flet bản mới nhất đè lên sau cùng để bảo vệ hệ thống
           pip install flet --upgrade
 
-      - name: ÉP KHUÔN APK (Tắt cảnh báo, chạy êm ru)
+      - name: ÉP KHUÔN APK (Khóa mõm làm màu, chạy êm ru)
         env:
-          CI: "true"
+          FLET_CLI_NO_RICH_OUTPUT: "true"
         run: flet build apk
 
       - name: Trả Hàng (Lưu file APK)
