@@ -42,7 +42,10 @@ jobs:
           pip install flet
           pip install -r requirements.txt
 
-      - name: ÉP KHUÔN APK (Hoàn hảo 100%)
+      - name: ÉP KHUÔN APK (Bọc thép 100%)
+        env:
+          FLET_CLI_NO_RICH_OUTPUT: "true"
+          PYTHONIOENCODING: "utf-8"
         run: flet build apk
 
       - name: Trả Hàng (Lưu file APK)
